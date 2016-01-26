@@ -1,10 +1,15 @@
 package com.example.fk.gtd_crud;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -27,11 +32,28 @@ public class MainListActivity extends AppCompatActivity {
     List<Stuff> stuffsList;
     StuffAdapter stuffAdapter;
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
         ButterKnife.bind(this);
+
+        handleIntent(getIntent());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +81,21 @@ public class MainListActivity extends AppCompatActivity {
         });
 
         lvStuff.setOnScrollListener(new EndlessScrollListener());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Toast.makeText(MainListActivity.this, "onNewIntent", Toast.LENGTH_SHORT).show();
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        Toast.makeText(MainListActivity.this, "handleIntent", Toast.LENGTH_SHORT).show();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search your data somehow
+            Toast.makeText(MainListActivity.this, query, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private List<Stuff> loadFirstPage() {
