@@ -1,32 +1,78 @@
 package com.example.fk.gtd_crud.model;
 
-import com.orm.SugarRecord;
-
 import java.io.Serializable;
 
-public class Stuff extends SugarRecord implements Serializable {
-    public Boolean done = false;
+public class Stuff implements Serializable {
+    private int id;
+    private int isDone = 0;
+    private String title;
+    private String description;
+    private String contact;
+    private String context;
+    private String location;
 
-    public String title;
 
-    public String description;
-    public String contact;
-    public String context;
-    public String location;
-
-    public Stuff() {
-
+    public boolean isDone() {
+        return (isDone == 1);
     }
 
-    public Stuff(String title) {
+    ///////////////////
+    // getters and setters
+    ///////////////////
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone(int isDone) {
+        this.isDone = isDone;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public Stuff(String title, String description, String contact, String context, String location) {
-        this.title = title;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
         this.context = context;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
         this.location = location;
     }
 }

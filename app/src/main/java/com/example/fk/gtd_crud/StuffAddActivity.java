@@ -3,11 +3,12 @@ package com.example.fk.gtd_crud;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fk.gtd_crud.dao.StuffDAO;
 import com.example.fk.gtd_crud.model.Stuff;
-import com.example.fk.gtd_crud.model.StuffBuilder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,22 +40,24 @@ public class StuffAddActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btAddStuff)
-    public void addStuff() {
+    public void addStuff(View v) {
         if (isStuffEmpty()) {
             Toast.makeText(StuffAddActivity.this, R.string.StuffEmpty, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Stuff newStuff = new StuffBuilder()
-                .setTitle(etTitle.getText().toString())
-                .setDescription(etDescription.getText().toString())
-                .setContact(etContact.getText().toString())
-                .setContext(etContext.getText().toString())
-                .setLocation(etLocation.getText().toString())
-                .build();
+        Stuff newStuff = new Stuff();
+        newStuff.setIsDone(0);
+        newStuff.setTitle(etTitle.getText().toString());
+        newStuff.setDescription(etDescription.getText().toString());
+        newStuff.setContact(etContact.getText().toString());
+        newStuff.setContext(etContext.getText().toString());
+        newStuff.setLocation(etLocation.getText().toString());
 
-        newStuff.save();
-        Toast.makeText(StuffAddActivity.this, R.string.Stuff_saved, Toast.LENGTH_SHORT).show();
+        StuffDAO stuffDAO = new StuffDAO(v.getContext());
+        String message = getString(stuffDAO.save(newStuff));
+
+        Toast.makeText(StuffAddActivity.this, message, Toast.LENGTH_SHORT).show();
         goToStuffListActivity();
     }
 

@@ -3,10 +3,12 @@ package com.example.fk.gtd_crud;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fk.gtd_crud.dao.StuffDAO;
 import com.example.fk.gtd_crud.model.Stuff;
 
 import butterknife.Bind;
@@ -43,41 +45,43 @@ public class StuffItemActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String extraStuffId = intent.getStringExtra("stuffid");
-        long l = Long.parseLong(extraStuffId.trim());
+        oldStuff = (Stuff) intent.getSerializableExtra("stuff");
 
-        oldStuff = Stuff.findById(Stuff.class, l);
-        etTitle.setText(oldStuff.title);
-        etDescription.setText(oldStuff.description);
-        etContact.setText(oldStuff.contact);
-        etContext.setText(oldStuff.context);
-        etLocation.setText(oldStuff.location);
+        etTitle.setText(oldStuff.getTitle());
+        etDescription.setText(oldStuff.getDescription());
+        etContact.setText(oldStuff.getContact());
+        etContext.setText(oldStuff.getContext());
+        etLocation.setText(oldStuff.getLocation());
 
-        cbDone.setChecked(oldStuff.done);
+        cbDone.setChecked(oldStuff.isDone());
     }
 
     @OnClick(R.id.btAddStuff)
-    public void updateStuff() {
+    public void updateStuff(View v) {
 
-        oldStuff.title = etTitle.getText().toString();
-        oldStuff.description = etDescription.getText().toString();
-        oldStuff.contact = etContact.getText().toString();
-        oldStuff.context = etContext.getText().toString();
-        oldStuff.location = etLocation.getText().toString();
+        oldStuff.setTitle(etTitle.getText().toString());
+        oldStuff.setDescription(etDescription.getText().toString());
+        oldStuff.setContact(etContact.getText().toString());
+        oldStuff.setContext(etContext.getText().toString());
+        oldStuff.setLocation(etLocation.getText().toString());
 
-        oldStuff.done = cbDone.isChecked();
+        oldStuff.setIsDone((cbDone.isChecked()) ? 1 : 0);
 
-        oldStuff.save();
+        StuffDAO stuffDAO = new StuffDAO(v.getContext());
+        String message = getString(stuffDAO.update(oldStuff));
 
-        Toast.makeText(StuffItemActivity.this, "Stuff updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(StuffItemActivity.this, message, Toast.LENGTH_SHORT).show();
         goToStuffListActivity();
     }
 
     @OnClick(R.id.btRemoveStuff)
-    public void removeStuff() {
+    public void removeStuff(View v) {
         // TODO: Undo delete with Snackbar
-        oldStuff.delete();
-//        oldStuff.delete();
+
+        StuffDAO stuffDAO = new StuffDAO(v.getContext());
+        String message = getString(stuffDAO.delete(oldStuff));
+
+        Toast.makeText(StuffItemActivity.this, message, Toast.LENGTH_SHORT).show();
         goToStuffListActivity();
     }
 

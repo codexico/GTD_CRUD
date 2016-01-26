@@ -22,10 +22,9 @@ public class StuffAdapter extends BaseAdapter {
         this.stuffList = stuffList;
     }
 
-
     @Override
     public int getCount() {
-        return (int) Stuff.count(Stuff.class, null, null);
+        return stuffList.size();
     }
 
     @Override
@@ -63,15 +62,12 @@ public class StuffAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
-        holder.tvTitle.setText(stuff.title);
-        holder.tvDescription.setText(stuff.description);
-
+        holder.tvTitle.setText(stuff.getTitle());
+        holder.tvDescription.setText(stuff.getDescription());
         // trying to do a layout for tablet
 //        holder.tvContact.setText(stuff.contact);
 //        holder.tvContext.setText(stuff.context);
 //        holder.tvLocation.setText(stuff.location);
-
 
         return convertView;
     }

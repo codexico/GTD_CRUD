@@ -12,4 +12,7 @@
     <string name="StuffEmpty">Needs title or description</string>
     <string name="Name_hint">Name (admin)</string>
     <string name="Password_hint">Password (admin)</string>
+    <string name="db_save_error">Save error, please try again</string>
+    <string name="stuff_deleted">Stuff deleted!</string>
+    <string name="delete_error">Delete error</string>
 </resources>
