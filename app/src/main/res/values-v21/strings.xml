@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Title">Title</string>
+    <string name="Description">Description</string>
+    <string name="Contact">Contact</string>
+    <string name="Location">Location</string>
+    <string name="Add">Add</string>
+    <string name="Save">Save</string>
+    <string name="Stuff_saved">Stuff saved</string>
+    <string name="Remove">Remove</string>
+    <string name="Done">Done</string>
+    <string name="StuffEmpty">Needs title or description</string>
+    <string name="Name_hint">Name (admin)</string>
+    <string name="Password_hint">Password (admin)</string>
+</resources>

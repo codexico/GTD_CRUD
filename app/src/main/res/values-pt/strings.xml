@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GTD_CRUD</string>
+    <string name="Add">Adicionar</string>
+    <string name="Contact">Contato</string>
+    <string name="Context">Contexto</string>
+    <string name="Description">Descrição</string>
+    <string name="Done">Feito</string>
+    <string name="Location">Local</string>
+    <string name="Login">Entrar</string>
+    <string name="Login_incorrect">Nome ou senha inválidos, tente novamente.</string>
+    <string name="Name">Nome</string>
+    <string name="Password">Senha</string>
+    <string name="Remove">Deletar</string>
+    <string name="Save">Salvar</string>
+    <string name="Sign_in">Entrar</string>
+    <string name="Stay_signed_in">Manter conectado</string>
+    <string name="StuffEmpty">Título ou descrição não podem ser vazios</string>
+    <string name="Stuff_saved">Salvo com sucesso</string>
+    <string name="Title">Título</string>
+    <string name="Welcome">Bem-vindo</string>
+    <string name="Name_hint">Nome (admin)</string>
+    <string name="Password_hint">Senha (admin)</string>
+</resources>
