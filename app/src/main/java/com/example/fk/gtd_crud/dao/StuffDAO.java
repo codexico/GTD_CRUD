@@ -139,4 +139,42 @@ public class StuffDAO {
         return stuffList;
     }
 
+    public List<Stuff> search(String searchQuery) {
+        String limit = "20";
+
+        Log.d("searching", searchQuery);
+
+        List<Stuff> stuffList = new ArrayList<>();
+        Cursor cursor;
+
+        db = stuffBD.getReadableDatabase();
+
+        String query = " select * from " + StuffDB.TABLE_NAME +
+                " where " + StuffDAO.TITLE + " like " + "'%" + searchQuery + "%'"+
+                " or " + StuffDAO.DESCRIPTION + " like " + "'%" + searchQuery + "%'"+
+                " limit " + limit;
+
+        cursor = db.rawQuery(query, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                Stuff stuff = new Stuff();
+                stuff.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                stuff.setIsDone(cursor.getInt(cursor.getColumnIndex(ISDONE)));
+                stuff.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
+                stuff.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+                stuff.setContact(cursor.getString(cursor.getColumnIndex(CONTACT)));
+                stuff.setContext(cursor.getString(cursor.getColumnIndex(CONTEXT)));
+                stuff.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION)));
+
+                stuffList.add(stuff);
+            }
+            cursor.close();
+        }
+        db.close();
+        Log.d("stuffList.size()", Integer.toString(stuffList.size()));
+        return stuffList;
+    }
+
 }

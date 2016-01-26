@@ -16,4 +16,5 @@
     <string name="stuff_deleted">Stuff deleted!</string>
     <string name="delete_error">Delete error</string>
     <string name="Search">Search</string>
+    <string name="search_stuff">Search for stuff</string>
 </resources>

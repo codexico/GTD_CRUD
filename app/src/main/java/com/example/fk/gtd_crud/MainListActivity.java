@@ -31,6 +31,7 @@ public class MainListActivity extends AppCompatActivity {
     StuffDAO stuffDAO;
     List<Stuff> stuffsList;
     StuffAdapter stuffAdapter;
+    private String searchQuery = "";
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -44,6 +45,20 @@ public class MainListActivity extends AppCompatActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String query) {
+                Log.d("onQueryTextChange", query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("onQueryTextSubmit ", query);
+                doSearch(query);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -66,7 +81,13 @@ public class MainListActivity extends AppCompatActivity {
         stuffDAO = new StuffDAO(this);
 //        List<Stuff> stuffs = stuffDAO.getStuffList();
 
-        stuffsList = loadFirstPage();
+        if (searchQuery.isEmpty()) {
+            stuffsList = loadFirstPage();
+        } else {
+            stuffsList = doSearch(searchQuery);
+        }
+
+
         stuffAdapter = new StuffAdapter(this, stuffsList);
         lvStuff.setAdapter(stuffAdapter);
 
@@ -85,17 +106,29 @@ public class MainListActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Toast.makeText(MainListActivity.this, "onNewIntent", Toast.LENGTH_SHORT).show();
         handleIntent(intent);
     }
 
     private void handleIntent(Intent intent) {
-        Toast.makeText(MainListActivity.this, "handleIntent", Toast.LENGTH_SHORT).show();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
-            Toast.makeText(MainListActivity.this, query, Toast.LENGTH_SHORT).show();
+            Log.d("intent query ", query);
+            searchQuery = query;
         }
+    }
+
+    public List<Stuff> doSearch(String query) {
+        List<Stuff> stuffs = stuffDAO.search(query);
+
+        if (stuffs.isEmpty()) {
+            Log.d("no results for ", query);
+            Toast.makeText(MainListActivity.this, "No results for: " + query, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainListActivity.this, "Found " + stuffs.size() + " results for: " + query, Toast.LENGTH_SHORT).show();
+        }
+
+        return stuffs;
     }
 
     private List<Stuff> loadFirstPage() {
